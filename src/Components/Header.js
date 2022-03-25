@@ -18,7 +18,8 @@ const useStyles = makeStyles((theme) => ({
     top:0,
   },
   logo:{
-    display:"block"
+    display:"block",
+    marginLeft: theme.spacing(3),
   },
 
   search: {
@@ -59,6 +60,11 @@ icons:{
       display:"none",
     }
   },
+  cartIcon:{
+    direction:"flex",
+    alignItems:"center",
+    marginRight:theme.spacing(3)
+  }
 }
 ));
 
@@ -76,7 +82,7 @@ function Header() {
         </div>
         <div className={classes.icons}>
           <Search className={classes.searchButton} onClick={()=>setOpen(true)} />
-          <AddShoppingCartIcon />
+          <AddShoppingCartIcon className={classes.cartIcon} />
         </div>
       </Toolbar>
     </AppBar>
