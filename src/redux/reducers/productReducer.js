@@ -1,17 +1,13 @@
 import {types} from '../constants/types'
 // import types from '../constants'
 const initialState={
-    products:[{
-        id:1,
-        title:"Dell",
-        category: "Pcs"
-    }]
+    products:[],
 }
 
 export const productReducer =(state=initialState,{type, payload})=>{
     switch (type) {
         case types.SET_PRODUCTS:
-            return state;
+            return {...state, products:payload };
     
         default:
             return state;
