@@ -28,15 +28,15 @@ const useStyles = makeStyles((theme)=>({
 function ProductComponent() {
   const classes = useStyles();
   const products = useSelector(
-    (state) => state.allproducts.products.data.product);
+    (state) => state?.allproducts?.products?.data?.product);
   console.log(products);
-  const renderList = products.map((product) => {
+  const renderList = products?.map((product) => {
     const { id, name, image, price, stock, category } = product;
     // console.log(product)
     return (
-      <Grid container spacing={3}>
+      <Grid container spacing={3} style={{marginTop:65}}>
         <Grid item xs={3}>
-          <Card className={classes.card} key={id}>
+          <Card className={classes.card}>
             <CardActionArea>
               <CardMedia
                 className={classes.media}
