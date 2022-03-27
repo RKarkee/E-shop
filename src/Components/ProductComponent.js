@@ -8,7 +8,7 @@ import CardMedia from "@material-ui/core/CardMedia";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import { Grid, makeStyles } from "@material-ui/core";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -27,9 +27,21 @@ const useStyles = makeStyles((theme) => ({
 }));
 // const Products = () => {};
 
-function ProductComponent() {
+function ProductComponent({ returnData }) {
   const classes = useStyles();
   const [allData, setAllData] = useState();
+  const [returnDatas, setReturnDatas] = useState();
+  const [clicked, setClicked] = useState(false);
+
+  const addToCart = (data) => {
+    setReturnDatas(data);
+  };
+
+  useEffect(() => {
+    returnData(returnDatas);
+    return () => {};
+  }, [clicked, returnDatas, returnData]);
+
   async function getProducts() {
     await fetch("https://electronic-ecommerce.herokuapp.com/api/v1/product")
       .then((response) => response.json())
@@ -41,15 +53,15 @@ function ProductComponent() {
       })
       .catch((err) => console.error(err));
   }
-  useEffect(()=>{
-    let isMounted=true;
-      if(isMounted){
-        getProducts()
-      }
-     return()=>{
-       isMounted=false;
-     } 
-  },[])
+  useEffect(() => {
+    let isMounted = true;
+    if (isMounted) {
+      getProducts();
+    }
+    return () => {
+      isMounted = false;
+    };
+  }, []);
   return (
     <Grid container spacing={2}>
       {allData ? (
@@ -61,7 +73,6 @@ function ProductComponent() {
               item
               xs={12}
               md={4}
-              // lg={6}
               spacing={3}
               style={{ marginTop: 80 }}
             >
