@@ -2,6 +2,8 @@ import {types} from '../constants/types'
 // import types from '../constants'
 const initialState={
     products:[],
+    addedItems:[],
+    total:0
 }
 
 export const productReducer =(state=initialState,{type, payload})=>{
@@ -13,4 +15,7 @@ export const productReducer =(state=initialState,{type, payload})=>{
             return state;
     }
 
+}
+export const cartReducer = (state= initialState,action) => {
+ return state;
 }

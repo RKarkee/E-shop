@@ -15,12 +15,14 @@ const useStyles = makeStyles((theme)=>({
     maxWidth: 400,
     maxHeight: 400,
     padding:theme.spacing(2),
+    margin:theme.spacing(5),
   },
   media: {
     height: 140,
   },
   grid:{
-
+    marginTop:70,
+    flexGrow: 2
   }
 }));
 // const Products = () => {};
@@ -30,13 +32,12 @@ function ProductComponent() {
   const products = useSelector(
     (state) => state?.allproducts?.products?.data?.product);
   console.log(products);
-  const renderList = products?.map((product) => {
+  const  renderList = products?.map((product,index) => {
     const { id, name, image, price, stock, category } = product;
     // console.log(product)
     return (
-      <Grid container spacing={3} style={{marginTop:65}}>
-        <Grid item xs={3}>
-          <Card className={classes.card}>
+     
+          <Card key={index} className={classes.card} >
             <CardActionArea>
               <CardMedia
                 className={classes.media}
@@ -64,12 +65,18 @@ function ProductComponent() {
               </Button>
             </CardActions>
           </Card>
-          </Grid>
-        </Grid>
+         
     );
   });
 
-  return <>{renderList}</>;
+  return( 
+    <Grid item container spacing={2} style={{marginTop:65}}  columngap={2} justifyContent="space-evenly" xs={12} sm={6} >
+    
+    {renderList}
+        </Grid>
+  
+  
+  );
 }
 
 export default ProductComponent;
