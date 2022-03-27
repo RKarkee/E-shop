@@ -68,7 +68,7 @@ icons:{
 }
 ));
 
-function Header() {
+function Header({count}) {
   const [open,setOpen]=useState(false);
   const classes = useStyles({ open });
   return (
@@ -82,7 +82,13 @@ function Header() {
         </div>
         <div className={classes.icons}>
           <Search className={classes.searchButton} onClick={()=>setOpen(true)} />
+          <div>
           <AddShoppingCartIcon className={classes.cartIcon} />
+          {
+            count &&
+            <span>{count}</span>
+          }
+          </div>
         </div>
       </Toolbar>
     </AppBar>

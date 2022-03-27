@@ -98,7 +98,7 @@ function ProductComponent({ returnData }) {
                     </Typography>
                   </CardContent>
                 </CardActionArea>
-                <CardActions>
+                <CardActions onClick={() => addToCart(data)}>
                   <Button size="small" color="primary">
                     Add to cart
                   </Button>

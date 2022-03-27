@@ -8,12 +8,14 @@ import React, { useState,useEffect } from 'react'
 
 
 function App() {
+  const [productCounter,setProductCounter]=useState(0)
   const cartAddData=[]
   const[allData,setAllData]=useState()
   const addCartData=(details)=>{
     if(details){
       setAllData(details)
       cartAddData.push(allData)
+      setProductCounter(cartAddData.length)
       console.log('add to cart data after click', cartAddData)
     }
   }
@@ -21,7 +23,7 @@ function App() {
   return (
     <>
     <Router>
-      <Header />
+      <Header count={productCounter}/>
       <Routes>
       <Route path='/' exact element={<ProductComponent returnData={addCartData}/>} /> 
       {/* <Route path='/product/:productId' exact element={<ProductDetails/>} />  */}
