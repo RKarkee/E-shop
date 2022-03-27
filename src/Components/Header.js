@@ -2,9 +2,21 @@ import { AppBar, makeStyles, Toolbar, Typography,InputBase,alpha } from "@materi
 import React from "react";
 import { Cancel, Search  } from '@material-ui/icons';
 // import { alpha } from '@material-ui/core';
-import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
+import Badge from '@material-ui/core/Badge';
+import { withStyles } from '@material-ui/core/styles';
+import IconButton from '@material-ui/core/IconButton';
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+// import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import { useState } from "react";
  
+const StyledBadge = withStyles((theme) => ({
+  badge: {
+    right: -3,
+    top: 13,
+    border: `2px solid ${theme.palette.background.paper}`,
+    padding: '0 4px',
+  },
+}))(Badge);
 
 const useStyles = makeStyles((theme) => ({
   appbar: {
@@ -83,12 +95,12 @@ function Header({count}) {
         <div className={classes.icons}>
           <Search className={classes.searchButton} onClick={()=>setOpen(true)} />
           <div>
-          <AddShoppingCartIcon className={classes.cartIcon} />
-          {
-            count &&
-            <span>{count}</span>
-          }
-          </div>
+          <IconButton aria-label="cart">
+      <StyledBadge badgeContent={count} color="secondary">
+        <ShoppingCartIcon />
+      </StyledBadge>
+    </IconButton>
+        </div>
         </div>
       </Toolbar>
     </AppBar>
