@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 // import ProductComponent from './ProductComponent'
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
@@ -10,72 +10,96 @@ import Typography from "@material-ui/core/Typography";
 import { Grid, makeStyles } from "@material-ui/core";
 import { useSelector } from "react-redux";
 
-const useStyles = makeStyles((theme)=>({
+const useStyles = makeStyles((theme) => ({
   card: {
     maxWidth: 400,
     maxHeight: 400,
-    padding:theme.spacing(2),
-    margin:theme.spacing(5),
+    padding: theme.spacing(2),
+    margin: theme.spacing(5),
   },
   media: {
     height: 140,
   },
-  grid:{
-    marginTop:70,
-    flexGrow: 2
-  }
+  grid: {
+    marginTop: 70,
+    flexGrow: 2,
+  },
 }));
 // const Products = () => {};
 
 function ProductComponent() {
   const classes = useStyles();
-  const products = useSelector(
-    (state) => state?.allproducts?.products?.data?.product);
-  console.log(products);
-  const  renderList = products?.map((product,index) => {
-    const { id, name, image, price, stock, category } = product;
-    // console.log(product)
-    return (
-     
-          <Card key={index} className={classes.card} >
-            <CardActionArea>
-              <CardMedia
-                className={classes.media}
-                image={`https://electronic-ecommerce.herokuapp.com/${image}`}
-              />
-              {/* {console.log(image)} */}
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="h2">
-                  {name}
-                </Typography>
-                <Typography variant="h6" component="h4">
-                  {category[1]}
-                </Typography>
-                <Typography variant="body2" component="p">
-                  {price}
-                </Typography>
-                <Typography variant="body2" component="p">
-                  Stock:{stock}
-                </Typography>
-              </CardContent>
-            </CardActionArea>
-            <CardActions>
-              <Button size="small" color="primary">
-                Add to cart
-              </Button>
-            </CardActions>
-          </Card>
-         
-    );
-  });
-
-  return( 
-    <Grid item container spacing={2} style={{marginTop:65}}  columngap={2} justifyContent="space-evenly" xs={12} sm={6} >
-    
-    {renderList}
-        </Grid>
-  
-  
+  const [allData, setAllData] = useState();
+  async function getProducts() {
+    await fetch("https://electronic-ecommerce.herokuapp.com/api/v1/product")
+      .then((response) => response.json())
+      .then((response) => {
+        console.log(response);
+        if (response.status === "success") {
+          setAllData(response.data.product);
+        }
+      })
+      .catch((err) => console.error(err));
+  }
+  useEffect(()=>{
+    let isMounted=true;
+      if(isMounted){
+        getProducts()
+      }
+     return()=>{
+       isMounted=false;
+     } 
+  },[])
+  return (
+    <Grid container spacing={2}>
+      {allData ? (
+        allData?.map((data, index) => {
+          return (
+            <Grid
+              key={index}
+              container
+              item
+              xs={12}
+              md={4}
+              // lg={6}
+              spacing={3}
+              style={{ marginTop: 80 }}
+            >
+              <Card key={index} className={classes.card}>
+                <CardActionArea>
+                  <CardMedia
+                    className={classes.media}
+                    image={`https://electronic-ecommerce.herokuapp.com/${data.image}`}
+                  />
+                  {/* {console.log(image)} */}
+                  <CardContent>
+                    <Typography gutterBottom variant="h5" component="h2">
+                      {data.name}
+                    </Typography>
+                    <Typography variant="h6" component="h4">
+                      {data.category[1]}
+                    </Typography>
+                    <Typography variant="body2" component="p">
+                      {data.price}
+                    </Typography>
+                    <Typography variant="body2" component="p">
+                      Stock:{data.stock}
+                    </Typography>
+                  </CardContent>
+                </CardActionArea>
+                <CardActions>
+                  <Button size="small" color="primary">
+                    Add to cart
+                  </Button>
+                </CardActions>
+              </Card>
+            </Grid>
+          );
+        })
+      ) : (
+        <h1>Loading</h1>
+      )}
+    </Grid>
   );
 }
 
