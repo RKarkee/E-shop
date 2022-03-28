@@ -1,11 +1,11 @@
-import React from 'react'
+// import React from 'react'
 
-function ProductDetails() {
-  return (
-    <div>
-      <h2>Products</h2>
-    </div>
-  )
-}
+// function ProductDetails() {
+//   return (
+//     <div>
+//       <h2>Products</h2>
+//     </div>
+//   )
+// }
 
-export default ProductDetails
+// export default ProductDetails
