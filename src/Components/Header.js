@@ -1,20 +1,29 @@
-import { AppBar, makeStyles, Toolbar, Typography,InputBase,alpha } from "@material-ui/core";
+import {
+  AppBar,
+  makeStyles,
+  Toolbar,
+  Typography,
+  InputBase,
+  alpha,
+} from "@material-ui/core";
 import React from "react";
-import { Cancel, Search  } from '@material-ui/icons';
+import { Cancel, Search } from "@material-ui/icons";
 // import { alpha } from '@material-ui/core';
-import Badge from '@material-ui/core/Badge';
-import { withStyles } from '@material-ui/core/styles';
-import IconButton from '@material-ui/core/IconButton';
-import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+import Badge from "@material-ui/core/Badge";
+import { withStyles } from "@material-ui/core/styles";
+import IconButton from "@material-ui/core/IconButton";
+import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 // import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import { useState } from "react";
- 
+
+import { Link } from "react-router-dom";
+
 const StyledBadge = withStyles((theme) => ({
   badge: {
     right: -3,
     top: 13,
     border: `2px solid ${theme.palette.background.paper}`,
-    padding: '0 4px',
+    padding: "0 4px",
   },
 }))(Badge);
 
@@ -26,11 +35,11 @@ const useStyles = makeStyles((theme) => ({
   toolBar: {
     display: "flex",
     justifyContent: "space-between",
-    position:"sticky",
-    top:0,
+    position: "sticky",
+    top: 0,
   },
-  logo:{
-    display:"block",
+  logo: {
+    display: "block",
     marginLeft: theme.spacing(3),
   },
 
@@ -44,63 +53,71 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: theme.shape.borderRadius,
     width: "50%",
     [theme.breakpoints.down("sm")]: {
-      display: (props)=>(props.open?"flex":"none"),
+      display: (props) => (props.open ? "flex" : "none"),
       // display:"none",
     },
-    objectFit:"cover",
+    objectFit: "cover",
   },
   input: {
     color: "white",
-    width:"100%",
+    width: "100%",
     marginLeft: theme.spacing(1),
   },
   searchIcon: {
     padding: theme.spacing(0, 1),
   },
-  cancel:{
-    [theme.breakpoints.up("sm")]:{
-      display:"none",
+  cancel: {
+    [theme.breakpoints.up("sm")]: {
+      display: "none",
     },
     // objectFit:"contain",
-},
-icons:{
-  alignItems:"center",
-  display:(props)=>(props.open? "none":"flex"),
-},
-  searchButton:{
-    [theme.breakpoints.up("sm")]:{
-      display:"none",
-    }
   },
-  cartIcon:{
-    direction:"flex",
-    alignItems:"center",
-    marginRight:theme.spacing(3)
-  }
-}
-));
+  icons: {
+    alignItems: "center",
+    display: (props) => (props.open ? "none" : "flex"),
+  },
+  searchButton: {
+    [theme.breakpoints.up("sm")]: {
+      display: "none",
+    },
+  },
+  cartIcon: {
+    // direction: "flex",
+    // alignItems: "center",
+    // marginRight: theme.spacing(3),
+    color: "white",
+  },
+}));
 
-function Header({count}) {
-  const [open,setOpen]=useState(false);
+function Header({ count, wholeData }) {
+  const [open, setOpen] = useState(false);
   const classes = useStyles({ open });
+  console.log("whole data", wholeData);
   return (
     <AppBar className={classes.appbar}>
       <Toolbar className={classes.toolBar}>
-        <Typography variant="h5" className={classes.logo}>E-Shop</Typography>
+        <Typography variant="h5" className={classes.logo}>
+          E-Shop
+        </Typography>
         <div className={classes.search}>
           <Search className={classes.searchIcon} />
           <InputBase placeholder="Search" className={classes.input} />
-          <Cancel className={classes.cancel} onClick={()=>setOpen(false)} />
+          <Cancel className={classes.cancel} onClick={() => setOpen(false)} />
         </div>
         <div className={classes.icons}>
-          <Search className={classes.searchButton} onClick={()=>setOpen(true)} />
-          <div>
+          <Search
+            className={classes.searchButton}
+            onClick={() => setOpen(true)}
+          />
           <IconButton aria-label="cart">
-      <StyledBadge badgeContent={count} color="secondary">
-        <ShoppingCartIcon />
-      </StyledBadge>
-    </IconButton>
-        </div>
+            <StyledBadge badgeContent={count} color="secondary">
+              {wholeData && (
+                <Link to={{ pathname: "/cart" }}>
+                  <ShoppingCartIcon className={classes.cartIcon} />
+                </Link>
+              )}
+            </StyledBadge>
+          </IconButton>
         </div>
       </Toolbar>
     </AppBar>

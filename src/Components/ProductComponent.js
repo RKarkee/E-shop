@@ -29,18 +29,26 @@ const useStyles = makeStyles((theme) => ({
 
 function ProductComponent({ returnData }) {
   const classes = useStyles();
-  const [allData, setAllData] = useState();
   const [returnDatas, setReturnDatas] = useState();
-  const [clicked, setClicked] = useState(false);
-
+  const [allData, setAllData] = useState();
+  // const [clicked, setClicked] = useState(false);
+  const [clickState, setClickState]=useState(false)
   const addToCart = (data) => {
+    setClickState(true)
     setReturnDatas(data);
   };
 
   useEffect(() => {
-    returnData(returnDatas);
-    return () => {};
-  }, [clicked, returnDatas, returnData]);
+    let isMounted=true;
+    if(isMounted && clickState){
+
+      returnData(returnDatas);
+    }
+    return () => {
+      isMounted=false
+      setClickState(false)
+    };
+  }, [returnDatas,returnData, clickState]);
 
   async function getProducts() {
     await fetch("https://electronic-ecommerce.herokuapp.com/api/v1/product")
